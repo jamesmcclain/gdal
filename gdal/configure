@@ -782,6 +782,7 @@ HAVE_JASPER
 NETCDF_HAS_HDF4
 NETCDF_HAS_NC4
 NETCDF_ROOT
+NETCDF_MEM
 NETCDF_SETTING
 NETCDF_NCCONFIG
 KEA_LIB
@@ -26765,6 +26766,7 @@ fi
 
 
 NETCDF_SETTING=
+NETCDF_MEM=
 NETCDF_ROOT=
 NETCDF_HAS_NC4=
 NETCDF_HAS_HDF4=
@@ -26780,6 +26782,7 @@ fi
 if test "$with_netcdf" = "no" ; then
 
   NETCDF_SETTING=no
+  NETCDF_MEM=no
 
   echo "netCDF support disabled."
 
@@ -26896,6 +26899,48 @@ $as_echo_n "checking libnetcdf compiler and linker flags with nc-config... " >&6
 $as_echo " got version=\"$NETCDF_VERSION\", prefix=\"$NETCDF_PREFIX\",
  libs=\"$NETCDF_LIBS\", includedir=\"$NETCDF_INCLUDEDIR\"" >&6; }
 
+    { $as_echo "$as_me:${as_lineno-$LINENO}: checking for nc_open_mem in -lnetcdf" >&5
+$as_echo_n "checking for nc_open_mem in -lnetcdf... " >&6; }
+if ${ac_cv_lib_netcdf_nc_open_mem+:} false; then :
+  $as_echo_n "(cached) " >&6
+else
+  ac_check_lib_save_LIBS=$LIBS
+LIBS="-lnetcdf $NETCDF_LIBS $LIBS"
+cat confdefs.h - <<_ACEOF >conftest.$ac_ext
+/* end confdefs.h.  */
+
+/* Override any GCC internal prototype to avoid an error.
+   Use char because int might match the return type of a GCC
+   builtin and then its argument prototype would still apply.  */
+#ifdef __cplusplus
+extern "C"
+#endif
+char nc_open_mem ();
+int
+main ()
+{
+return nc_open_mem ();
+  ;
+  return 0;
+}
+_ACEOF
+if ac_fn_c_try_link "$LINENO"; then :
+  ac_cv_lib_netcdf_nc_open_mem=yes
+else
+  ac_cv_lib_netcdf_nc_open_mem=no
+fi
+rm -f core conftest.err conftest.$ac_objext \
+    conftest$ac_exeext conftest.$ac_ext
+LIBS=$ac_check_lib_save_LIBS
+fi
+{ $as_echo "$as_me:${as_lineno-$LINENO}: result: $ac_cv_lib_netcdf_nc_open_mem" >&5
+$as_echo "$ac_cv_lib_netcdf_nc_open_mem" >&6; }
+if test "x$ac_cv_lib_netcdf_nc_open_mem" = xyes; then :
+  NETCDF_MEM=yes
+else
+  NETCDF_MEM=no
+fi
+
     { $as_echo "$as_me:${as_lineno-$LINENO}: checking for nc_open in -lnetcdf" >&5
 $as_echo_n "checking for nc_open in -lnetcdf... " >&6; }
 if ${ac_cv_lib_netcdf_nc_open+:} false; then :
@@ -26947,6 +26992,48 @@ fi
 
 
 elif test "$with_netcdf" = "yes" -o "$with_netcdf" = "" ; then
+
+  { $as_echo "$as_me:${as_lineno-$LINENO}: checking for nc_open_mem in -lnetcdf" >&5
+$as_echo_n "checking for nc_open_mem in -lnetcdf... " >&6; }
+if ${ac_cv_lib_netcdf_nc_open_mem+:} false; then :
+  $as_echo_n "(cached) " >&6
+else
+  ac_check_lib_save_LIBS=$LIBS
+LIBS="-lnetcdf  $LIBS"
+cat confdefs.h - <<_ACEOF >conftest.$ac_ext
+/* end confdefs.h.  */
+
+/* Override any GCC internal prototype to avoid an error.
+   Use char because int might match the return type of a GCC
+   builtin and then its argument prototype would still apply.  */
+#ifdef __cplusplus
+extern "C"
+#endif
+char nc_open_mem ();
+int
+main ()
+{
+return nc_open_mem ();
+  ;
+  return 0;
+}
+_ACEOF
+if ac_fn_c_try_link "$LINENO"; then :
+  ac_cv_lib_netcdf_nc_open_mem=yes
+else
+  ac_cv_lib_netcdf_nc_open_mem=no
+fi
+rm -f core conftest.err conftest.$ac_objext \
+    conftest$ac_exeext conftest.$ac_ext
+LIBS=$ac_check_lib_save_LIBS
+fi
+{ $as_echo "$as_me:${as_lineno-$LINENO}: result: $ac_cv_lib_netcdf_nc_open_mem" >&5
+$as_echo "$ac_cv_lib_netcdf_nc_open_mem" >&6; }
+if test "x$ac_cv_lib_netcdf_nc_open_mem" = xyes; then :
+  NETCDF_MEM=yes
+else
+  NETCDF_MEM=no
+fi
 
   { $as_echo "$as_me:${as_lineno-$LINENO}: checking for nc_open in -lnetcdf" >&5
 $as_echo_n "checking for nc_open in -lnetcdf... " >&6; }
@@ -27019,6 +27106,48 @@ fi
   fi
 
 else
+
+  { $as_echo "$as_me:${as_lineno-$LINENO}: checking for nc_open_mem in -lnetcdf" >&5
+$as_echo_n "checking for nc_open_mem in -lnetcdf... " >&6; }
+if ${ac_cv_lib_netcdf_nc_open_mem+:} false; then :
+  $as_echo_n "(cached) " >&6
+else
+  ac_check_lib_save_LIBS=$LIBS
+LIBS="-lnetcdf -L$with_netcdf -L$with_netcdf/lib $LIBS"
+cat confdefs.h - <<_ACEOF >conftest.$ac_ext
+/* end confdefs.h.  */
+
+/* Override any GCC internal prototype to avoid an error.
+   Use char because int might match the return type of a GCC
+   builtin and then its argument prototype would still apply.  */
+#ifdef __cplusplus
+extern "C"
+#endif
+char nc_open_mem ();
+int
+main ()
+{
+return nc_open_mem ();
+  ;
+  return 0;
+}
+_ACEOF
+if ac_fn_c_try_link "$LINENO"; then :
+  ac_cv_lib_netcdf_nc_open_mem=yes
+else
+  ac_cv_lib_netcdf_nc_open_mem=no
+fi
+rm -f core conftest.err conftest.$ac_objext \
+    conftest$ac_exeext conftest.$ac_ext
+LIBS=$ac_check_lib_save_LIBS
+fi
+{ $as_echo "$as_me:${as_lineno-$LINENO}: result: $ac_cv_lib_netcdf_nc_open_mem" >&5
+$as_echo "$ac_cv_lib_netcdf_nc_open_mem" >&6; }
+if test "x$ac_cv_lib_netcdf_nc_open_mem" = xyes; then :
+  NETCDF_MEM=yes
+else
+  NETCDF_MEM=no
+fi
 
   { $as_echo "$as_me:${as_lineno-$LINENO}: checking for nc_open in -lnetcdf" >&5
 $as_echo_n "checking for nc_open in -lnetcdf... " >&6; }
@@ -27125,6 +27254,8 @@ NETCDF_SETTING=$NETCDF_SETTING
 
 
 if test "$NETCDF_SETTING" != "no" ; then
+
+   NETCDF_MEM=$NETCDF_MEM
 
    NETCDF_ROOT=$NETCDF_ROOT
 
@@ -39194,6 +39325,11 @@ echo "  Kea support:               ${HAVE_KEA}"
 
 echo "  NetCDF support:            ${NETCDF_SETTING}"
 
+if test "$NETCDF_SETTING" = "yes" ; then
+
+echo "  NetCDF has nc_open_mem:    ${NETCDF_MEM}"
+
+fi
 
 echo "  Kakadu support:            ${HAVE_KAKADU}"
 
