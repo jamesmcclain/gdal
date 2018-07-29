@@ -2539,7 +2539,6 @@ else
     AC_MSG_RESULT([ got version="$NETCDF_VERSION", prefix="$NETCDF_PREFIX",
  libs="$NETCDF_LIBS", includedir="$NETCDF_INCLUDEDIR"])
 
-    AC_CHECK_LIB([netcdf], [nc_open_mem], [NETCDF_MEM=yes], [NETCDF_MEM=no], $NETCDF_LIBS)
     AC_CHECK_LIB([netcdf], [nc_open], [NETCDF_SETTING=yes], [NETCDF_SETTING=no], $NETCDF_LIBS)
 
     if test "$NETCDF_SETTING" = "yes" ; then
@@ -2553,7 +2552,6 @@ dnl previous behaviour without nc-config
 dnl test linking using default settings
 elif test "$with_netcdf" = "yes" -o "$with_netcdf" = "" ; then
 
-  AC_CHECK_LIB([netcdf], [nc_open_mem], [NETCDF_MEM=yes], [NETCDF_MEM=no],)
   AC_CHECK_LIB([netcdf], [nc_open], [NETCDF_SETTING=yes], [NETCDF_SETTING=no],)
 
   if test "$NETCDF_SETTING" = "yes" ; then
@@ -2578,6 +2576,7 @@ elif test "$with_netcdf" = "yes" -o "$with_netcdf" = "" ; then
       echo -n "libnetcdf is installed but its location cannot be found, "
       echo "use --with-netcdf=/path_to_netcdf for proper support"
     fi
+    NETCDF_INCLUDEDIR="$NETCDF_ROOT/include/"
 
     LIBS="-lnetcdf $LIBS"
     if test "$NETCDF_ROOT" != "" ; then
@@ -2591,7 +2590,6 @@ elif test "$with_netcdf" = "yes" -o "$with_netcdf" = "" ; then
 dnl test linking using --with_netcdf dir
 else
 
-  AC_CHECK_LIB([netcdf], [nc_open_mem], [NETCDF_MEM=yes], [NETCDF_MEM=no],-L$with_netcdf -L$with_netcdf/lib)
   AC_CHECK_LIB([netcdf], [nc_open], [NETCDF_SETTING=yes], [NETCDF_SETTING=no],-L$with_netcdf -L$with_netcdf/lib)
 
   if test "$NETCDF_SETTING" = "yes" ; then
@@ -2606,6 +2604,7 @@ else
       LIBS="-L$with_netcdf -lnetcdf $LIBS"
       EXTRA_INCLUDES="-I$with_netcdf $EXTRA_INCLUDES"
     fi
+    NETCDF_INCLUDEDIR="$with_netcdf/include/"
 
     echo "using libnetcdf from $with_netcdf"
 
@@ -2651,6 +2650,8 @@ dnl export results
 AC_SUBST([NETCDF_SETTING], [$NETCDF_SETTING])
 
 if test "$NETCDF_SETTING" != "no" ; then
+
+   AC_CHECK_HEADERS([$NETCDF_INCLUDEDIR/netcdf_mem.h], [NETCDF_MEM=yes], [NETCDF_MEM=no],)
 
    AC_SUBST([NETCDF_MEM], [$NETCDF_MEM])
    AC_SUBST([NETCDF_ROOT], [$NETCDF_ROOT])
@@ -5832,7 +5833,7 @@ LOC_MSG([  HDF5 support:              ${HAVE_HDF5}])
 LOC_MSG([  Kea support:               ${HAVE_KEA}])
 LOC_MSG([  NetCDF support:            ${NETCDF_SETTING}])
 if test "$NETCDF_SETTING" = "yes" ; then
-  LOC_MSG([  NetCDF has nc_open_mem:    ${NETCDF_MEM}])
+  LOC_MSG([  NetCDF has netcdf_mem.h:   ${NETCDF_MEM}])
 fi
 LOC_MSG([  Kakadu support:            ${HAVE_KAKADU}])
 if test "x$HAVE_JASPER_UUID" != "x" ; then
